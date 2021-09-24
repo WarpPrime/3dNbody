@@ -1,0 +1,128 @@
+<html>
+    <script>
+        const G = 6.67430e-11;
+var tick = 0;
+var objects = {
+	kerbol: {
+		mass: 1.7565459e28, // kg
+		x: 0, // m
+		y: 0, // m
+		z: 0, // m
+		vx: 0, // m/s
+		vy: 0, // m/s
+		vz: 0, // m/s
+		orbits: null
+	},
+	moho: {
+		mass: 2.5263314e21,
+		x: -561904829.2390558,
+		y: -6287565271.1039095,
+		z: -199212566.40062177,
+		vx: 12055.741042699212,
+		vy: -1031.9485058951839,
+		vz: -1434.3248012752226,
+		orbits: "kerbol"
+	},
+	// moho2: {
+	// 	mass: 2.5263314e21,
+	// 	x: -562004829.2390558,
+	// 	y: -6287565271.1039095,
+	// 	z: -199212566.40062177,
+	// 	vx: 12055.741042699212,
+	// 	vy: -1031.9485058951839,
+	// 	vz: -1434.3248012752226
+	// },
+}
+
+function distance(x1,y1,z1,x2,y2,z2) {
+	var x = x2-x1;
+	var y = y2-y1;
+	var z = z2-z1;
+	return Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+}
+
+function crossproduct(x1,y1,z1,x2,y2,z2) {
+	var x,y,z;
+	x = y1*z2 - z1*y2;
+	y = z1*x2 - x1*z2;
+	z = x1*y2 - y1*x2;
+	return [x,y,z];
+}
+
+function gravParam(obj) {
+	var a = objects[obj];
+	return G*a.mass;
+}
+
+function magnitude(vector) {
+	return Math.sqrt(Math.pow(vector[0],2)+Math.pow(vector[1],2)+Math.pow(vector[2],2));
+}
+
+function normalize(vector) {
+	var d = magnitude(vector);
+	return [vector[0]/d, vector[1]/d, vector[2]/d];
+}
+
+function cart2kepler(obj) {
+	var a = objects[obj];
+	var r = [a.x,a.y,a.z];
+	var R = [a.vx,a.vy,a.vz];
+	var h = crossproduct(a.x,a.y,a.z,a.vx,a.vy,a.vz);
+
+    var mu = gravParam(a.orbits);
+
+    var e0 = [
+        (1/mu) * ((Math.pow(magnitude(R),2) - (mu/magnitude(r))) * a.x - (((a.x*a.vx)+(a.y*a.vy)+(a.z*a.vz)) * a.vx)),
+        (1/mu) * ((Math.pow(magnitude(R),2) - (mu/magnitude(r))) * a.y - (((a.x*a.vx)+(a.y*a.vy)+(a.z*a.vz)) * a.vy)),
+        (1/mu) * ((Math.pow(magnitude(R),2) - (mu/magnitude(r))) * a.z - (((a.x*a.vx)+(a.y*a.vy)+(a.z*a.vz)) * a.vz))
+    ];
+    
+    var e = magnitude(e0);
+
+    var A = -mu/(2* ( Math.pow(magnitude(R),2) / 2  - mu/magnitude(r)));
+
+    var i = Math.acos(h[2]/magnitude(h)) * 180/Math.PI;
+
+    
+
+	return [h,e,A,i];
+}
+
+function nbody() {
+	var prevObjects = objects;
+	
+	var dvx = 0;
+	var dvy = 0;
+	var dvz = 0;
+	var accel;
+	var constant;
+	var a,b,oa,ob;
+	var vector, unitvector = [];
+	
+	for (i in objects) {
+		dvx, dvy, dvz = 0;
+		for (j in objects) {
+			if (i != j) {
+				a = objects[i];
+				b = objects[j];
+				
+				// G m1 m2 (x1-x2) / d^3
+				// m^3 kg^-1 s^-2 kg kg m / m^3 = m s^-2 kg
+				
+				// G * m2(x2-x1)/d^3
+				
+				d = distance(a.x,a.y,a.z,b.x,b.y,b.z);
+				
+				vector = [a.x-b.x,a.y-b.y,a.z-b.z];
+				unitvector = [vector[0]/d, vector[1]/d, vector[2]/d];
+				
+				dvx += G * b.mass/Math.pow(d,3) * (b.x-a.x);
+				dvy += G * b.mass/Math.pow(d,3) * (b.y-a.y);
+				dvz += G * b.mass/Math.pow(d,3) * (b.z-a.z);
+			}
+		}
+	}
+}
+    </script>
+
+</html>

@@ -11,14 +11,16 @@
 		<canvas id="sideview" width="1000" height="250" style="outline: 1px solid #000000"></canvas>
 		<br>
 		<input id="name" placeholder="Name">
-		<input id="mass" placeholder="mass">
-		<input id="x" placeholder="x">
-		<input id="y" placeholder="y">
-		<input id="z" placeholder="z">
-		<input id="vx" placeholder="vx">
-		<input id="vy" placeholder="vy">
-		<input id="vz" placeholder="vz">
-		<button id="create">Spawn Body</button>
+		<input id="mass" type="number" placeholder="mass">
+		<input id="x" type="number" placeholder="x">
+		<input id="y" type="number" placeholder="y">
+		<input id="z" type="number" placeholder="z">
+		<input id="vx" type="number" placeholder="vx">
+		<input id="vy" type="number" placeholder="vy">
+		<input id="vz" type="number" placeholder="vz">
+		<input id="orbits" placeholder="orbits">
+		<input id="color" type="color">
+		<button id="create" onclick="create(document.getElementById('name').value,document.getElementById('mass').value,document.getElementById('x').value,document.getElementById('y').value,document.getElementById('z').value,document.getElementById('vx').value,document.getElementById('vy').value,document.getElementById('vz').value,document.getElementById('orbits').value,document.getElementById('color').value)">Spawn Body</button>
 		<button id="reset">Reset simulation</button>
 		<button id="pause">Pause simulation</button>
 

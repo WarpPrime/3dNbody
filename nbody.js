@@ -104,20 +104,7 @@ function normalize(vector) {
 }
 
 function create(name,mass,x,y,z,vx,vy,vz,orbits,color) {
-	objects.push(
-	`
-		name: {
-			mass: mass,
-			x: x,
-			y: y,
-			z: z,
-			vx: vx,
-			vy: vy,
-			vz: vz,
-			orbits: orbits,
-			color: color,
-		}
-	`);
+	eval(`objects.${name} = {mass: ${mass}, x: ${x}, y: ${y}, z: ${z}, vx: ${vx}, vy: ${vy}, vz: ${vz}, orbits: ${orbits}, color: ${color}};`);
 }
 
 function cart2kepler(obj) {

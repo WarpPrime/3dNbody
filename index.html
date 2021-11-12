@@ -20,7 +20,7 @@
 		<input id="vz" type="number" placeholder="vz">
 		<input id="orbits" placeholder="orbits">
 		<input id="color" type="color">
-		<button id="create" onclick="create(document.getElementById('name').value,document.getElementById('mass').value,document.getElementById('x').value,document.getElementById('y').value,document.getElementById('z').value,document.getElementById('vx').value,document.getElementById('vy').value,document.getElementById('vz').value,document.getElementById('orbits').value,document.getElementById('color').value)">Spawn Body</button>
+		<button id="create" onclick="create(document.getElementById('name').value,Number(document.getElementById('mass').value),Number(document.getElementById('x').value),Number(document.getElementById('y').value),Number(document.getElementById('z').value),Number(document.getElementById('vx').value),Number(document.getElementById('vy').value),Number(document.getElementById('vz').value),document.getElementById('orbits').value,document.getElementById('color').value)">Spawn Body</button>
 		<button id="reset">Reset simulation</button>
 		<button id="pause">Pause simulation</button>
 
